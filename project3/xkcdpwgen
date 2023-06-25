@@ -1,35 +1,35 @@
+#!/usr/bin/env python3
 import argparse
 import random
 import string
 import sys
 
 def xkcdpwgen(num_words, num_caps, num_nums, num_symbols):
-
-    wordlist = []
+    "make a password generator using the XKCD method"
+    words = []
     with open('words.txt', 'r') as file:
         for line in file:
-            wordlist.append(line.strip())
+            words.append(line.strip())
 
-    # Shuffle words from 'words.txt'
-    random.shuffle(wordlist)
-    selected_words = wordlist[:num_words]
+    # shuffle words from 'words.txt'
+    random.shuffle(words)
+    selected_words = words[:num_words]
 
-    # Capitalize random words
+    # capitalize the first word if there are any caps
     if num_caps > 0:
         random.shuffle(selected_words)
         selected_words = [word.capitalize() for word in selected_words[:num_caps]] + selected_words[num_caps:]
 
     password = ''.join(selected_words)
 
-    # Insert random numbers
+    # add numbers to password
     if num_nums > 0:
         numbers = ''.join(random.choices(string.digits, k=num_nums))
         password += numbers
 
-    # Insert random symbols
-    symbollist = '~!@#$%^&*.:;'
+    # add symbols to the password
     if num_symbols > 0:
-        symbols = ''.join(random.choices(symbollist, k=num_symbols))
+        symbols = ''.join(random.choices(string.punctuation, k=num_symbols))
         password += symbols
 
     return password
