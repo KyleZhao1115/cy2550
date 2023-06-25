@@ -6,14 +6,14 @@ import sys
 
 def xkcdpwgen(num_words, num_caps, num_nums, num_symbols):
     "make a password generator using the XKCD method"
-    words = []
+    wordlist = []
     with open('words.txt', 'r') as file:
         for line in file:
-            words.append(line.strip())
+            wordlist.append(line.strip())
 
     # shuffle words from 'words.txt'
-    random.shuffle(words)
-    selected_words = words[:num_words]
+    random.shuffle(wordlist)
+    selected_words = wordlist[:num_words]
 
     # capitalize the first word if there are any caps
     if num_caps > 0:
