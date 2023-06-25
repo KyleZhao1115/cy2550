@@ -1,55 +1,38 @@
+#!/usr/bin/env python3
+
 import argparse
 import random
+import string
 
-# Define the default wordlist filename
-DEFAULT_WORDLIST_FILENAME = "words.txt"
+def generate_password(w, c, n, s):
+    with open('words.txt', 'r') as f:
+        words = [line.strip() for line in f]
+    password_words = random.sample(words, w)
+    
+    if c:
+        password_words = [word.capitalize() if random.choice([True, False]) else word for word in password_words]
+    if n:
+        for i in range(len(password_words)-1):
+            if random.choice([True, False]):
+                password_words.insert(i*2+1, str(random.randint(0, 9)))
+    if s:
+        symbols = string.punctuation
+        for i in range(len(password_words)-1):
+            if random.choice([True, False]):
+                password_words.insert(i*2+1, random.choice(symbols))
+    return "".join(password_words)
 
-def load_wordlist(filename):
-    """Load the wordlist from a file"""
-    with open(filename, "r") as file:
-        wordlist = [line.strip() for line in file]
-    return wordlist
-
-def generate_password(wordlist, num_words, capitalize, num_numbers, num_symbols):
-    """Generate the password based on the provided arguments"""
-    words = random.sample(wordlist, num_words)
-    if capitalize:
-        words = [word.capitalize() for word in words]
-
-    password = "".join(words)
-
-    if num_numbers > 0:
-        for _ in range(num_numbers):
-            password += str(random.randint(0, 9))
-
-    if num_symbols > 0:
-        symbols = "~!@#$%^&*.:;"
-        for _ in range(num_symbols):
-            password += random.choice(symbols)
-
-    return password
 
 def main():
-    # Create the argument parser
-    parser = argparse.ArgumentParser(description="Generate a secure, memorable password using the XKCD method")
 
-    # Add the command-line arguments
-    parser.add_argument("-w", "--words", type=int, default=4, help="include WORDS words in the password (default=4)")
-    parser.add_argument("-c", "--caps", type=int, default=0, help="capitalize the first letter of CAPS random words (default=0)")
-    parser.add_argument("-n", "--numbers", type=int, default=0, help="insert NUMBERS random numbers in the password (default=0)")
-    parser.add_argument("-s", "--symbols", type=int, default=0, help="insert SYMBOLS random symbols in the password (default=0)")
-
-    # Parse the command-line arguments
+    parser = argparse.ArgumentParser(description='Generate a secure, memorable password using the XKCD method')
+    parser.add_argument('-w', '--words', type=int, default=4, help='include WORDS words in the password (default=4)')
+    parser.add_argument('-c', '--caps', type=int, default=0, help='capitalize the first letter of CAPS random words (default=0)')
+    parser.add_argument('-n', '--numbers', type=int, default=0, help='insert NUMBERS random numbers in the password (default=0)')
+    parser.add_argument('-s', '--symbols', type=int, default=0, help='insert SYMBOLS random symbols in the password (default=0)')
     args = parser.parse_args()
 
-    # Load the wordlist
-    wordlist = load_wordlist(DEFAULT_WORDLIST_FILENAME)
 
-    # Generate the password
-    password = generate_password(wordlist, args.words, args.caps, args.numbers, args.symbols)
+    print(generate_password(args.w, args.c, args.n, args.s))
 
-    # Print the generated password
-    print(password)
-
-if __name__ == "__main__":
-    main()
+main()
