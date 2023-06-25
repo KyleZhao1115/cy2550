@@ -5,10 +5,9 @@ import string
 
 def xkcdpwgen(num_words, num_caps, num_nums, num_symbols):
 
-    wordlist = []
+    # Load wordlist from file
     with open('words.txt', 'r') as file:
-        for line in file:
-            wordlist.append(line.strip())
+        wordlist = [line.strip() for line in file]
 
     # Shuffle words from 'words.txt'
     random.shuffle(wordlist)
