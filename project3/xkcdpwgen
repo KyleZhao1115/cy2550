@@ -3,7 +3,7 @@ import argparse
 import random
 import string
 
-def xkcdpwgen(num_words, num_caps, num_nums, num_symbols):
+def xkcdpwgen(num_words, num_caps, num_numbers, num_symbols):
 
     # Load wordlist from file
     with open('words.txt', 'r') as file:
@@ -17,18 +17,17 @@ def xkcdpwgen(num_words, num_caps, num_nums, num_symbols):
     if num_caps > 0:
         random.shuffle(words)
         words = [word.capitalize() for word in words[:num_caps]] + words[num_caps:]
-
     password = ''.join(words)
 
     # Insert random numbers
     if num_nums > 0:
         numbers = ''.join(random.choices(string.digits, k=num_nums))
-        password += numbers
+        password = password + numbers
 
     # Insert random symbols
     if num_symbols > 0:
         symbols = ''.join(random.choices(string.punctuation, k=num_symbols))
-        password += symbols
+        password = password + symbols
 
     return password
 
