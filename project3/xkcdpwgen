@@ -2,7 +2,6 @@
 import argparse
 import random
 import string
-import sys
 
 def xkcdpwgen(num_words, num_caps, num_nums, num_symbols):
 
@@ -13,14 +12,14 @@ def xkcdpwgen(num_words, num_caps, num_nums, num_symbols):
 
     # Shuffle words from 'words.txt'
     random.shuffle(wordlist)
-    selected_words = wordlist[:num_words]
+    words = wordlist[:num_words]
 
     # Capitalize random words
     if num_caps > 0:
-        random.shuffle(selected_words)
-        selected_words = [word.capitalize() for word in selected_words[:num_caps]] + selected_words[num_caps:]
+        random.shuffle(words)
+        words = [word.capitalize() for word in words[:num_caps]] + words[num_caps:]
 
-    password = ''.join(selected_words)
+    password = ''.join(words)
 
     # Insert random numbers
     if num_nums > 0:
