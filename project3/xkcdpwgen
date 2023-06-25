@@ -5,31 +5,32 @@ import string
 import sys
 
 def xkcdpwgen(num_words, num_caps, num_nums, num_symbols):
-    "make a password generator using the XKCD method"
-    words = []
+
+    wordlist = []
     with open('words.txt', 'r') as file:
         for line in file:
-            words.append(line.strip())
+            wordlist.append(line.strip())
 
-    # shuffle words from 'words.txt'
-    random.shuffle(words)
-    selected_words = words[:num_words]
+    # Shuffle words from 'words.txt'
+    random.shuffle(wordlist)
+    selected_words = wordlist[:num_words]
 
-    # capitalize the first word if there are any caps
+    # Capitalize random words
     if num_caps > 0:
         random.shuffle(selected_words)
         selected_words = [word.capitalize() for word in selected_words[:num_caps]] + selected_words[num_caps:]
 
     password = ''.join(selected_words)
 
-    # add numbers to password
+    # Insert random numbers
     if num_nums > 0:
         numbers = ''.join(random.choices(string.digits, k=num_nums))
         password += numbers
 
-    # add symbols to the password
+    # Insert random symbols
+    symbollist = '~!@#$%^&*.:;'
     if num_symbols > 0:
-        symbols = ''.join(random.choices(string.punctuation, k=num_symbols))
+        symbols = ''.join(random.choices(symbollist, k=num_symbols))
         password += symbols
 
     return password
