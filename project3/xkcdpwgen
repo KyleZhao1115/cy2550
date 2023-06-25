@@ -5,7 +5,7 @@ import string
 import sys
 
 def xkcdpwgen(num_words, num_caps, num_nums, num_symbols):
-    "make a password generator using the XKCD method"
+
     wordlist = []
     with open('words.txt', 'r') as file:
         for line in file:
