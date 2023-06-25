@@ -4,23 +4,23 @@ import random
 import string
 import sys
 
-def xkcdpwgen(num_words, num_caps, num_numbers, num_symbols):
-
-    wordlist = []
+def xkcdpwgen(num_words, num_caps, num_nums, num_symbols):
+    "make a password generator using the XKCD method"
+    words = []
     with open('words.txt', 'r') as file:
         for line in file:
-            wordlist.append(line.strip())
+            words.append(line.strip())
 
     # shuffle words from 'words.txt'
-    random.shuffle(wordlist)
-    words = words[:num_words]
+    random.shuffle(words)
+    selected_words = words[:num_words]
 
     # capitalize the first word if there are any caps
     if num_caps > 0:
-        random.shuffle(words)
-        words = [word.capitalize() for word in words[:num_caps]] + words[num_caps:]
+        random.shuffle(selected_words)
+        selected_words = [word.capitalize() for word in selected_words[:num_caps]] + selected_words[num_caps:]
 
-    password = ''.join(words)
+    password = ''.join(selected_words)
 
     # add numbers to password
     if num_nums > 0:
