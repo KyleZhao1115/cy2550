@@ -22,7 +22,7 @@ def xkcdpwgen(num_words, num_caps, num_nums, num_symbols):
 
     # Insert random numbers
     if num_nums > 0:
-        numbers = ''.join(random.choices(string.digits, k=num_nums))
+        numbers = ''.join(random.choices(range(1,10), k=num_nums))
         password = password + numbers
 
     # Insert random symbols
