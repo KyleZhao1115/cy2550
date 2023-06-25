@@ -1,39 +1,47 @@
 #!/usr/bin/env python3
-
 import argparse
 import random
 import string
+import sys
 
-def generate_password(w, c, n, s):
-    with open('words.txt', 'r') as f:
-        words = [line.strip() for line in f]
-    password_words = random.sample(words, w)
+def xkcdpwgen(num_words, num_caps, num_nums, num_symbols):
+    "make a password generator using the XKCD method"
     
-    if c:
-        password_words = [word.capitalize() if random.choice([True, False]) else word for word in password_words]
-    if n:
-        for i in range(len(password_words)-1):
-            if random.choice([True, False]):
-                password_words.insert(i*2+1, str(random.randint(0, 9)))
-    if s:
-        symbols = string.punctuation
-        for i in range(len(password_words)-1):
-            if random.choice([True, False]):
-                password_words.insert(i*2+1, random.choice(symbols))
-    return "".join(password_words)
+    # Load wordlist from file
+    with open('words.txt', 'r') as file:
+        wordlist = [line.strip() for line in file]
 
+    # Shuffle words from 'words.txt'
+    random.shuffle(words)
+    selected_words = words[:num_words]
 
-def main():
+    # Capitalize random words
+    if num_caps > 0:
+        random.shuffle(selected_words)
+        selected_words = [word.capitalize() for word in selected_words[:num_caps]] + selected_words[num_caps:]
 
+    password = ''.join(selected_words)
 
-    parser = argparse.ArgumentParser(description='Generate an XKCD-style password.')
-    parser.add_argument('-w', type=int, default=4)
-    parser.add_argument('-c', type=int, default=0)
-    parser.add_argument('-n', type=int, default=0)
-    parser.add_argument('-s', type=int, default=0)
+    # Insert random numbers
+    if num_nums > 0:
+        numbers = ''.join(random.choices(string.digits, k=num_nums))
+        password += numbers
 
-    args = parser.parse_args()
+    # Insert random symbols
+    if num_symbols > 0:
+        symbols = ''.join(random.choices(string.punctuation, k=num_symbols))
+        password += symbols
 
-    print(generate_password(args.w, args.c, args.n, args.s))
+    return password
 
-main()
+if __name__ == '__main__':
+
+    parser = argparse.ArgumentParser(description='Generate a secure, memorable password using the XKCD method')
+    parser.add_argument('-w', '--words', type=int, default=4, help='include WORDS words in the password (default=4)')
+    parser.add_argument('-c', '--caps', type=int, default=0, help='capitalize the first letter of CAPS random words (default=0)')
+    parser.add_argument('-n', '--numbers', type=int, default=0, help='insert NUMBERS random numbers in the password (default=0)')
+    parser.add_argument('-s', '--symbols', type=int, default=0, help='insert SYMBOLS random symbols in the password (default=0)')
+    args = parser.parse_args(sys.argv[1:])
+
+    password = xkcdpwgen(args.words, args.caps, args.numbers, args.symbols)
+    print(password)
