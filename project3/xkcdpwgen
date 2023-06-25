@@ -26,8 +26,9 @@ def xkcdpwgen(num_words, num_caps, num_nums, num_symbols):
         password = password + numbers
 
     # Insert random symbols
+    symbollist = '~!@#$%^&*.:;'
     if num_symbols > 0:
-        symbols = ''.join(random.choices(string.punctuation, k=num_symbols))
+        symbols = ''.join(random.choices(symbollist, k=num_symbols))
         password = password + symbols
 
     return password
