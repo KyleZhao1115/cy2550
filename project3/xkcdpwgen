@@ -28,9 +28,9 @@ def main():
 
     parser = argparse.ArgumentParser(description='Generate an XKCD-style password.')
     parser.add_argument('-w', type=int, default=4)
-    parser.add_argument('-c', action='store_true')
-    parser.add_argument('-n', action='store_true')
-    parser.add_argument('-s', action='store_true')
+    parser.add_argument('-c', type=int, default=0)
+    parser.add_argument('-n', type=int, default=0)
+    parser.add_argument('-s', type=int, default=0)
 
     args = parser.parse_args()
 
